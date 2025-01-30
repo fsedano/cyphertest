@@ -75,6 +75,8 @@ func createDevices(drv dbdriver.DbDriver, deviceCount int, ifCount int) error {
 			params[fmt.Sprintf("interface%d%d_name", i, j)] = fmt.Sprintf("interface%d", j)
 		}
 
+		// Add the direct link count
+		cypher += fmt.Sprintf("with *\ncreate (d%d)-[:DIRECT_LINK {count: %d}]->(h)", i, ifCount)
 		if i < deviceCount-1 {
 			cypher += "with h\n"
 		}
